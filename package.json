@@ -1,0 +1,16 @@
+{
+  "name": "beatcovid-bot",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^9.0.2",
+    "google-spreadsheet": "^3.1.15",
+    "venom-bot": "^3.0.16"
+  }
+}
