@@ -3,8 +3,8 @@ const { getAllChatGroups } = require('../services/get_groups');
 const { chatReply } = require('../services/send_message');
 const { DOCUMENTS, DELAYS } = require('../config/constants.json');
 
-async function broadcastMessage(client) {
-    const sheets = await sheetService();
+async function broadcastMessage(client, googleSheets) {
+    const sheets = await sheetService(googleSheets);
     // read message from google sheet
     const messages = await sheets.readSheet(DOCUMENTS.BROADCAST.DOC_REF, DOCUMENTS.BROADCAST.SHEET);
     // messages.forEach(message => {

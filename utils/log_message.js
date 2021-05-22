@@ -1,8 +1,8 @@
 const { sheetService } = require('../services/google_sheet');
 const { DOCUMENTS } = require('../config/constants.json');
 
-async function logMessage(msg) {
-    const sheets = await sheetService();
+async function logMessage(googleSheets, msg) {
+    const sheets = await sheetService(googleSheets);
 
     // let arrayToadd = [];
     // console.log(msg);

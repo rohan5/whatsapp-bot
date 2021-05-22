@@ -14,6 +14,7 @@
 e.g https://docs.google.com/spreadsheets/d/xxxxxxxxxxxxxxxxxxxxx/
 4. Add sheet ids - xxxxxxxxxxx from above STEP to .env file for each corresponding sheet.
 5. At the end .env must have (2 + number_of_g_sheets) entries.
+6. Share these sheets withh client_email obtained in first step.
 
 ### TEChnical MANAGEMENT
 1. Delays in ms can be configured in constants.json in config in DELAYS section.

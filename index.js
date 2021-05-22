@@ -5,6 +5,7 @@ const commands = require('./config/commands.json');
 const { runCommand } = require('./utils/command');
 const { logMessage } = require('./utils/log_message');
 //const { chatReply } = require('./services/send_message');
+const { authGoogleSheets } = require('./services/google_sheets_auth');
 
 venom
     .create(
@@ -22,12 +23,13 @@ venom
     )
     .then(async (client) => {
 
+        const googleSheets = await authGoogleSheets();
         client.onMessage(message => {
             // checkIfCommand
             if (commands[message.body]) {
-                runCommand(client, message.body);
+                runCommand(client,googleSheets, message.body);
             }
-            logMessage(message);
+            logMessage(googleSheets, message);
         })
 
         // bulk join and messaging
