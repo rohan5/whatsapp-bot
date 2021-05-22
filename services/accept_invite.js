@@ -17,11 +17,25 @@ async function acceptGroupInvite(client, googleSheets) {
             .map(invite => {
                 return invite.invite_url.split('.com/')[1]
             })
-        if (inviteCodeArr.length)
+        console.log('INVITE: -- STARTING INVITE ACCEPT --')
+        if (inviteCodeArr.length) {
+            let promise = Promise.resolve();
             inviteCodeArr.forEach(invite => {
-                if (invite)
-                    setTimeout(() => client.joinGroup(invite), DELAYS.ACCEPT_INVITE);
+                if (invite) {
+                    promise = promise.then(() => {
+                        client.joinGroup(invite);
+                        console.log('INVITE: SENDING TO', invite);
+                        return new Promise((resolve) => {
+                            setTimeout(resolve, DELAYS.ACCEPT_INVITE);
+                        })
+                    })
+                }
+                //setTimeout(() => client.joinGroup(invite), DELAYS.ACCEPT_INVITE);
             });
+            promise.then(function () {
+                console.log('INVITE:-- FINISHED INVITE ACCEPT --')
+            });
+        }
     } catch (error) {
         console.log('-- ERROR IN ACCEPTING INVITE ----');
         console.log(error);

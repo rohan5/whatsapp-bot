@@ -12,6 +12,8 @@ async function broadcastMessage(client, googleSheets) {
     //         sendMessage();
     //     }
     // });
+    console.log('BROADCAST: -- STARTING BROADCAST --')
+    
     if(messages[0].active === 'yes') {
         const message = messages[0].message;
 
@@ -19,10 +21,19 @@ async function broadcastMessage(client, googleSheets) {
         const chatGroups = await getAllChatGroups(client);
 
         // send message in loop to ALL THE GROUPS
+        let promise = Promise.resolve();
         chatGroups.forEach(group => {
-            //if (group.name === 'Me and') {
-                setTimeout(() => chatReply(client, group.id._serialized, message), DELAYS.BROADCAST);
-            //}
+            promise = promise.then(() => {
+                // if (group.name === 'Me and')
+                chatReply(client, group.id._serialized, message);
+                console.log('BROADCAST: SENDING TO', group.id);
+                return new Promise( (resolve) => {
+                    setTimeout(resolve, DELAYS.BROADCAST);
+                })
+            })
+        });
+        promise.then(function () {
+            console.log('BROADCAST:-- FINISHED BROADCAST --')
         });
     }
 }

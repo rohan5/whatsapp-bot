@@ -5,7 +5,7 @@ async function authGoogleSheets() {
         // Initialize the sheet - doc ID is the long id in the sheets URL
         // Initialize Auth - see more available options at https://theoephraim.github.io/node-google-spreadsheet/#/getting-started/authentication
         // console.log('AUTHENTICATING SHEETS');
-
+        console.log('GOOGLE_SHEET_AUTH: STARTING');
         const docMessages = new GoogleSpreadsheet(process.env.GOOGLE_MESSAGES_SHEET_ID);
         const docBroadcast = new GoogleSpreadsheet(process.env.GOOGLE_BROADCAST_SHEET_ID);
         const docGroupInvite = new GoogleSpreadsheet(process.env.GOOGLE_GROUP_INVITE_SHEET_ID);
@@ -28,10 +28,12 @@ async function authGoogleSheets() {
         await docBroadcast.loadInfo(); // loads document properties and worksheets
         await docGroupInvite.loadInfo(); // loads document properties and worksheets
         
-        console.log(docMessages.title, 'loaded');
-        console.log(docBroadcast.title, 'loaded');
-        console.log(docGroupInvite.title, 'loaded');
+        console.log(docMessages.title, 'Loaded');
+        console.log(docBroadcast.title, 'Loaded');
+        console.log(docGroupInvite.title, 'Loaded');
 
+        console.log('GOOGLE_SHEET_AUTH: FINISHED');
+        
         return {
             docMessages,
             docBroadcast,
