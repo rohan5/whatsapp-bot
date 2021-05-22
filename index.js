@@ -1,10 +1,10 @@
 require('dotenv').config()
-//console.log(process.env);
 const venom = require('venom-bot');
 
 const commands = require('./config/commands.json');
 const { runCommand } = require('./utils/command');
 const { logMessage } = require('./utils/log_message');
+//const { chatReply } = require('./services/send_message');
 
 venom
     .create(
@@ -20,11 +20,8 @@ venom
         },
         undefined
     )
-    .then(async (client) => {    
+    .then(async (client) => {
 
-        // bulk join and messaging
-
-        // On new message
         client.onMessage(message => {
             // checkIfCommand
             if (commands[message.body]) {
@@ -33,10 +30,44 @@ venom
             logMessage(message);
         })
 
+        // bulk join and messaging
+        // accept invite
+        // https://chat.whatsapp.com/LwtK8oNgHEJJRVYH7ajDE2
+        // https://chat.whatsapp.com/C5U7TTuY3wJ39VqrU4owoh
+        // https://chat.whatsapp.com/DLTw8AvVbLkCchmaFob36Y
+        //console.log(await client.joinGroup('DLTw8AvVbLkCchmaFob36Y'));
+        // await client
+        // .sendMessageOptions(
+        //   '919594445366@c.us',
+        //   'did you get this message ? -- Rohan',
+        //    {
+        //      // quotedMessageId: reply,
+        //     }
+        // )
+        // .then((retorno) => {
+        //   resp = retorno;
+        // })
+        // .catch((e) => {
+        //   console.log(e);
+        // });
+
+        // On new message
+        // console.log(await chatReply(client, '919729140966@c.us', 'did you get this message ? -- Rohan'));
+        //console.log(await chatReply(client, '919594445366@c.us', 'did you get this message ? -- Rohan'));
+
+        // await client
+        //     .sendText('9729140966@c.us', 'did you get this message 2? -- Rohan')
+        //     .then((result) => {
+        //         console.log('Result: ', result); //return object success
+        //     })
+        //     .catch((erro) => {
+        //         console.error('Error when sending: ', erro); //return object error
+        //     });
+
         // getAllMessagesInChat
         //const messages = await client.getAllMessagesInChat('919729695315-1588869495@g.us');
         // console.log(messages);
-        console.log('--------222222222222----------');
+        //console.log('--------222222222222----------');
 
         // Retrieve more chat message
         //const moreMessages = await client.loadEarlierMessages('919729695315-1588869495@g.us');
@@ -45,7 +76,7 @@ venom
         // moreMessages.forEach(msg => {
         //     console.log(msg.sender.formattedName, msg.sender.id, '---', msg.body);
         // })
-        console.log('-----------33333333333---------------')
+        //console.log('-----------33333333333---------------')
 
         // Retrieve all messages in chat
         // const allMessages = await client.loadAndGetAllMessagesInChat(

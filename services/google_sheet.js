@@ -1,31 +1,21 @@
-const { GoogleSpreadsheet } = require('google-spreadsheet');
-
+//const { GoogleSpreadsheet } = require('google-spreadsheet');
+const { authGoogleSheets } = require('./google_sheets_auth');
+const { DOCUMENTS } = require('../config/constants.json');
+// require all sheets
 async function sheetService() {
-  // Initialize the sheet - doc ID is the long id in the sheets URL
-  const doc = new GoogleSpreadsheet('xxxxx - sheet id - xxxxxxxx');
-
-  // Initialize Auth - see more available options at https://theoephraim.github.io/node-google-spreadsheet/#/getting-started/authentication
-  // console.log('AUTHENTICATING SHEETS');
-  await doc.useServiceAccountAuth({
-    client_email: process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL,
-    private_key: "xxxxxxxxx",
-  });
-
-
-  await doc.loadInfo(); // loads document properties and worksheets
-  console.log(doc.title);
-
-  // SERVICE METHODS
-
-  async function addToSheet(rowToAdd, sheetName) {
-    const sheet = doc.sheetsByTitle[sheetName];
   
+  // SERVICE METHODS
+  
+  async function addToSheet(document, sheetName, rowToAdd) {
+    const documents = await authGoogleSheets(document);
+    const sheet = documents[document].sheetsByTitle[sheetName];
     //const moreRows = await sheet.addRows(rowsToAdd);
     return await sheet.addRow(rowToAdd);
   }
 
-  async function readSheet(sheetName) {
-    const sheet = doc.sheetsByTitle[sheetName];
+  async function readSheet(document, sheetName) {
+    const documents = await authGoogleSheets(document);
+    const sheet = documents[document].sheetsByTitle[sheetName];
     return await sheet.getRows();
   }
 

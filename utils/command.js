@@ -1,4 +1,5 @@
 const { broadcastMessage } = require('./broadcast_message');
+const { acceptGroupInvite } = require('../services/accept_invite');
 
 function runCommand(client, cmd) {
     switch (cmd) {
@@ -6,16 +7,11 @@ function runCommand(client, cmd) {
             broadcastMessage(client);
             break;
         case 'INITIATE_INVITE_ACCEPT@007':
-            acceptGroupInvite();
+            acceptGroupInvite(client);
             break;
         default:
             break;
     }
-}
-
-
-function acceptGroupInvite() {
-    
 }
 
 module.exports = {
