@@ -16,6 +16,14 @@ e.g https://docs.google.com/spreadsheets/d/xxxxxxxxxxxxxxxxxxxxx/
 5. At the end .env must have (2 + number_of_g_sheets) entries.
 6. Share these sheets withh client_email obtained in first step.
 
+* .env file *
+```
+GOOGLE_SERVICE_ACCOUNT_EMAIL=""
+GOOGLE_PRIVATE_KEY=""
+GOOGLE_MESSAGES_SHEET_ID=""
+GOOGLE_BROADCAST_SHEET_ID=""
+GOOGLE_GROUP_INVITE_SHEET_ID=""
+```
 ### TEChnical MANAGEMENT
 1. Delays in ms can be configured in constants.json in config in DELAYS section.
 
