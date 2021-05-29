@@ -6,6 +6,7 @@ const { runCommand } = require('./utils/command');
 const { logMessage } = require('./utils/log_message');
 //const { chatReply } = require('./services/send_message');
 const { authGoogleSheets } = require('./services/google_sheets_auth');
+require('./config/db')
 
 venom
     .create(
@@ -27,8 +28,9 @@ venom
         client.onMessage(message => {
             // checkIfCommand
             if (commands[message.body]) {
-                runCommand(client,googleSheets, message.body);
+                runCommand(client, googleSheets, message.body);
             }
+
             logMessage(googleSheets, message);
         })
 
