@@ -1,11 +1,12 @@
 require('dotenv').config()
 const venom = require('venom-bot');
-
+const fs = require('fs');
 const commands = require('./config/commands.json');
 const { runCommand } = require('./utils/command');
 const { logMessage } = require('./utils/log_message');
 //const { chatReply } = require('./services/send_message');
 const { authGoogleSheets } = require('./services/google_sheets_auth');
+
 require('./config/db')
 
 venom
@@ -23,15 +24,13 @@ venom
         undefined
     )
     .then(async (client) => {
-
         const googleSheets = await authGoogleSheets();
-        client.onMessage(message => {
+        client.onMessage(async message => {
             // checkIfCommand
             if (commands[message.body]) {
                 runCommand(client, googleSheets, message.body);
             }
-
-            logMessage(googleSheets, message);
+            logMessage(client, googleSheets, message);
         })
 
         // bulk join and messaging

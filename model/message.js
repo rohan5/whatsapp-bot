@@ -8,14 +8,14 @@ const messageSchema = new mongoose.Schema({
         type: String
     },
     groupChatId: {
-        type: mongoose.Schema.Types.ObjectId
+        type: String
     },
     groupName: {
         type: String
 
     },
     senderId: {
-        type: mongoose.Schema.Types.ObjectId
+        type: String
     },
     senderName: { type: String },
     body: { type: String },
@@ -24,6 +24,12 @@ const messageSchema = new mongoose.Schema({
     lng: { type: Number },
     timestamp: {
         type: Date
+    },
+    attachment: {
+        type: String
+    },
+    attachmentPath: {
+        type: String
     },
     dump: {
         type: String
