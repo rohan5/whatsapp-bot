@@ -28,6 +28,9 @@ const messageSchema = new mongoose.Schema({
     attachment: {
         type: String
     },
+    attachmentPath: {
+        type: String
+    },
     dump: {
         type: String
     }
