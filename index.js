@@ -1,12 +1,17 @@
 require('dotenv').config()
 const venom = require('venom-bot');
-
+const fs = require('fs');
+const mime = require('mime-types');
 const commands = require('./config/commands.json');
 const { runCommand } = require('./utils/command');
 const { logMessage } = require('./utils/log_message');
+const { awsUpload } = require('./utils/awsUpload');
 //const { chatReply } = require('./services/send_message');
 const { authGoogleSheets } = require('./services/google_sheets_auth');
+
+
 require('./config/db')
+
 
 venom
     .create(
@@ -23,15 +28,23 @@ venom
         undefined
     )
     .then(async (client) => {
-
         const googleSheets = await authGoogleSheets();
-        client.onMessage(message => {
+        client.onMessage(async message => {
             // checkIfCommand
             if (commands[message.body]) {
                 runCommand(client, googleSheets, message.body);
             }
-
-            logMessage(googleSheets, message);
+            if (message.isMedia === true || message.isMMS === true) {
+                const buffer = await client.decryptFile(message);
+                // At this point you can do whatever you want with the buffer
+                // Most likely you want to write it into a file
+                const fileName = `beat-covid-whatsapp.${mime.extension(message.mimetype)}`;
+                data = await awsUpload(fileName, buffer)
+                message.attachment = data.Location
+                logMessage(googleSheets, message);
+            }
+            else
+                logMessage(googleSheets, message);
         })
 
         // bulk join and messaging

@@ -20,8 +20,10 @@ async function logMessage(googleSheets, msg) {
             lat: msg.lat,
             lng: msg.lng,
             timestamp: msg.timestamp,
+            attachment: msg.attachment,
             dump: JSON.stringify(msg)
         };
+
         //arrayToadd.push(msgToLog);
         await Message.create(msgToLog)
         //sheets.addToSheet(DOCUMENTS.MESSAGES.DOC_REF, DOCUMENTS.MESSAGES.SHEET, msgToLog);
