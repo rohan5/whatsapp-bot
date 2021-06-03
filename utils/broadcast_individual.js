@@ -1,3 +1,4 @@
+
 const { sheetService } = require('../services/google_sheet');
 const { sendTextIndividual } = require('../services/send_message_individual');
 const { DOCUMENTS, DELAYS } = require('../config/constants.json');
@@ -54,3 +55,19 @@ async function broadcastMessageIndividual(client, googleSheets, msg) {
 module.exports = {
     broadcastMessageIndividual
 }
+
+// get contact list from sheet
+// format received 10 digit numbers with enable 'yes' from sheet
+// message text received as input to function
+// send message in loop with delay
+
+        // text msg send demo
+        // client
+        //     .sendText('91923456789@c.us', '👋 Demo message from. Rohan')
+        //     .then((result) => {
+        //         console.log('Result: ', result); //return object success
+        //     })
+        //     .catch((erro) => {
+        //         console.error('Error when sending: ', erro); //return object error
+        //     });
+

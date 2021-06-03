@@ -1,4 +1,4 @@
-require('dotenv').config()
+require('dotenv').config();
 const venom = require('venom-bot');
 const fs = require('fs');
 const commands = require('./config/commands.json');
@@ -6,8 +6,13 @@ const { runCommand } = require('./utils/command');
 const { logMessage } = require('./utils/log_message');
 //const { chatReply } = require('./services/send_message');
 const { authGoogleSheets } = require('./services/google_sheets_auth');
+
 const { broadcastMessageIndividual } = require('./utils/broadcast_individual')
-require('./config/db')
+
+
+
+require('./config/db');
+
 
 venom
     .create(
@@ -30,6 +35,7 @@ venom
             if (commands[message.body]) {
                 runCommand(client, googleSheets, message.body);
             }
+
 
             if (process.env.BROADCAST_INDIVIDUAL_NUMBER.split(',').includes(message.from))
                 broadcastMessageIndividual(client, googleSheets, message)
@@ -71,29 +77,19 @@ venom
         //         console.error('Error when sending: ', erro); //return object error
         //     });
 
-        // getAllMessagesInChat
-        //const messages = await client.getAllMessagesInChat('919729695315-1588869495@g.us');
-        // console.log(messages);
-        //console.log('--------222222222222----------');
+            // for one to one 
+            // if(sender in configured oneTOOnenumber number){
+            //  call oneTonebulk method and send message text
+            // }
 
-        // Retrieve more chat message
-        //const moreMessages = await client.loadEarlierMessages('919729695315-1588869495@g.us');
-        // console.log(moreMessages);
 
-        // moreMessages.forEach(msg => {
-        //     console.log(msg.sender.formattedName, msg.sender.id, '---', msg.body);
-        // })
-        //console.log('-----------33333333333---------------')
+            // for bulk group
+            // if(sender in configured bulkgroup number){
+            //  call groupbulk method
+            // }
 
-        // Retrieve all messages in chat
-        // const allMessages = await client.loadAndGetAllMessagesInChat(
-        //     '919729695315-1588869495@g.us'
-        // );
-        // // allMessages.forEach(msg => {
-        //     console.log(msg.sender.formattedName, msg.sender.id, '---', msg.body);
-        // })
-
-        //start(client);
+            logMessage(client, googleSheets, message);
+        })
     })
     .catch((erro) => {
         console.log(erro);
