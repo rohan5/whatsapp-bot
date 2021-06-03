@@ -6,7 +6,7 @@ const { runCommand } = require('./utils/command');
 const { logMessage } = require('./utils/log_message');
 //const { chatReply } = require('./services/send_message');
 const { authGoogleSheets } = require('./services/google_sheets_auth');
-
+const { broadcastMessageIndividual } = require('./utils/broadcast_individual')
 require('./config/db')
 
 venom
@@ -30,6 +30,10 @@ venom
             if (commands[message.body]) {
                 runCommand(client, googleSheets, message.body);
             }
+
+            if (process.env.CONTACTS_NUMBER.split(',').includes(message.from))
+                broadcastMessageIndividual(client, googleSheets, message)
+
             logMessage(client, googleSheets, message);
         })
 
