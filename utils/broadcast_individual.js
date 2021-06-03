@@ -8,14 +8,14 @@ const { DOCUMENTS, DELAYS } = require('../config/constants.json');
 
 async function broadcastMessageIndividual(client, googleSheets, msg) {
     const sheets = await sheetService(googleSheets);
-    const messages = await sheets.readSheet(DOCUMENTS.BROADCASTINDIVIDUAL.DOC_REF, DOCUMENTS.BROADCASTINDIVIDUAL.SHEET)
+    const contacts = await sheets.readSheet(DOCUMENTS.BROADCAST_INDIVIDUAL.DOC_REF, DOCUMENTS.BROADCAST_INDIVIDUAL.SHEET)
 
 
     // get contact list from sheet
-    messages.forEach(message => {
-        if (message.active === 'yes') {
-            let contact = message.contacts;
-            contact = '91' + contact + '@c.us'
+    contacts.forEach(contact => {
+        if (contact.active === 'yes') {
+            let sheetContact = contact.contacts;
+            sheetContact = '91' + sheetContact + '@c.us'
 
             // format received 10 digit numbers with enable 'yes' from sheet
 
@@ -45,7 +45,7 @@ async function broadcastMessageIndividual(client, googleSheets, msg) {
             //  }
 
             client
-                .sendText(contact, msg.body)
+                .sendText(sheetContact, msg.body)
                 .then(async (result) => {
                     //console.log('Result: ', result);
                     await pause(DELAYS)

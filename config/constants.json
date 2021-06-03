@@ -13,7 +13,7 @@
             "DOC_REF": "docGroupInvite",
             "SHEET": "GROUP_INVITE"
         },
-        "BROADCASTINDIVIDUAL": {
+        "BROADCAST_INDIVIDUAL": {
             "DOC_REF": "docBroadcastIndividual",
             "SHEET": "MSG_BROADCAST_INDIVIDUAL"
         }

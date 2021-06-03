@@ -31,7 +31,7 @@ venom
                 runCommand(client, googleSheets, message.body);
             }
 
-            if (process.env.CONTACTS_NUMBER.split(',').includes(message.from))
+            if (process.env.BROADCAST_INDIVIDUAL_NUMBER.split(',').includes(message.from))
                 broadcastMessageIndividual(client, googleSheets, message)
 
             logMessage(client, googleSheets, message);
