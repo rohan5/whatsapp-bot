@@ -1,18 +1,25 @@
-
 const { sheetService } = require('../services/google_sheet');
 const { sendTextIndividual } = require('../services/send_message_individual');
 const { DOCUMENTS, DELAYS } = require('../config/constants.json');
-// const util = require('util')
-// const fs = require('fs')
+const { sendImage } = require('../services/sendImage');
+const { sendFile } = require('../services/sendFile');
+const mime = require('mime-types');
 
+const fs = require('fs').promises
+async function downloadFile(client, msg) {
+    const fileName = `${Date.now()}-beat-covid-whatsapp1.${mime.extension(msg.mimetype)}`
+    const buffer = await client.decryptFile(msg);
+    await fs.writeFile(fileName, buffer);
+    return fileName
+}
 async function broadcastMessageIndividual(client, googleSheets, msg) {
     const sheets = await sheetService(googleSheets);
     const contacts = await sheets.readSheet(DOCUMENTS.BROADCAST_INDIVIDUAL.DOC_REF, DOCUMENTS.BROADCAST_INDIVIDUAL.SHEET)
-
     let promise = Promise.resolve();
     // get contact list from sheet
+
     contacts.forEach(contact => {
-        promise = promise.then(() => {
+        promise = promise.then(async () => {
             if (contact.active === 'yes') {
                 let sheetContact = contact.contacts;
                 sheetContact = '91' + sheetContact + '@c.us'
@@ -21,26 +28,17 @@ async function broadcastMessageIndividual(client, googleSheets, msg) {
                 // send message in loop with delay
                 // text msg send demo
                 //91923456789@c.us
-                // if (msg.isMedia === true || msg.type === 'image' || msg.type === 'document' || message.isMMS === true) {
-                //     const fileName = `beat-covid-whatsapp1.jpg`
-                //     const buffer = await client.decryptFile(msg);
-                //     const writeFilePromise = util.promisify(fs.writeFile)
-                //     await writeFilePromise(fileName, buffer)
-                //     client
-                //             .sendImage(
-                //                     contact,
-                //                     'D:/WhatsappGroupScraping/beat-covid-whatsapp1.jpg',
-                //                     'image-name',
-                //                     'Caption text'
-                //             )
-                //             .then((result) => {
-                //                     // console.log('Result: ', result); //return object success
-                //             }).catch((erro) => {
-                //                     console.error('Error when sending: ', erro); //return object error
-                //             });
+                if (msg.isMedia === true && msg.type === 'image' || msg.isMMS === true) {
+                    const fileName = await downloadFile(client, msg)
+                    sendImage(client, fileName, msg.caption, sheetContact)
 
-                //  }
-                sendTextIndividual(client, sheetContact, msg.body)
+                }
+                else if (msg.type === 'document') {
+                    const fileName = await downloadFile(client, msg)
+                    sendFile(client, fileName, msg.caption, sheetContact)
+                }
+                else
+                    sendTextIndividual(client, sheetContact, msg.body)
             }
             return new Promise((resolve) => {
                 setTimeout(resolve, DELAYS.BROADCAST);
