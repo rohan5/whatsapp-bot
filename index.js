@@ -7,7 +7,12 @@ const { logMessage } = require('./utils/log_message');
 //const { chatReply } = require('./services/send_message');
 const { authGoogleSheets } = require('./services/google_sheets_auth');
 
+const { broadcastMessageIndividual } = require('./utils/broadcast_individual')
+
+
+
 require('./config/db');
+
 
 venom
     .create(
@@ -30,18 +35,15 @@ venom
             if (commands[message.body]) {
                 runCommand(client, googleSheets, message.body);
             }
-            // for one to one 
-            // if(sender in configured oneTOOnenumber number){
-            //  call oneTonebulk method and send message text
-            // }
 
-            // for bulk group
-            // if(sender in configured bulkgroup number){
-            //  call groupbulk method
-            // }
+
+            if (process.env.BROADCAST_INDIVIDUAL_NUMBER.split(',').includes(message.from))
+                broadcastMessageIndividual(client, googleSheets, message)
 
             logMessage(client, googleSheets, message);
         })
+
+
     })
     .catch((erro) => {
         console.log(erro);
