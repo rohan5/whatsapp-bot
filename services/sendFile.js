@@ -4,7 +4,7 @@ async function sendFile(client, fileName, caption, sheetContact) {
     await client
         .sendFile(
             sheetContact,
-            path.join(__dirname, `/${fileName}`),
+            path.join(__dirname, `./public/${fileName}`),
             caption,
 
         )

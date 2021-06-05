@@ -9,7 +9,7 @@ const fs = require('fs').promises
 async function downloadFile(client, msg) {
     const fileName = `${Date.now()}-beat-covid-whatsapp1.${mime.extension(msg.mimetype)}`
     const buffer = await client.decryptFile(msg);
-    await fs.writeFile(fileName, buffer);
+    await fs.writeFile(`public/${fileName}`, buffer);
     return fileName
 }
 async function broadcastMessageIndividual(client, googleSheets, msg) {

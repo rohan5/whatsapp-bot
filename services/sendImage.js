@@ -4,7 +4,7 @@ async function sendImage(client, fileName, caption, sheetContact) {
     await client
         .sendImage(
             sheetContact,
-            path.join(__dirname, `/${fileName}`),
+            path.join(__dirname, `/public/${fileName}`),
             'image-name',
             caption
         )
