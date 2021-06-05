@@ -21,7 +21,6 @@ async function broadcastMessage(client, msg) {
 
             }
             else if (msg.type === 'document') {
-                console.log(group.id)
                 const fileName = await downloadFile(client, msg)
                 sendFile(client, fileName, msg.caption, group.id._serialized)
                 console.log('BROADCAST: SENDING TO', group.id);
