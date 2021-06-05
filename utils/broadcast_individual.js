@@ -3,15 +3,7 @@ const { sendTextIndividual } = require('../services/send_message_individual');
 const { DOCUMENTS, DELAYS } = require('../config/constants.json');
 const { sendImage } = require('../services/sendImage');
 const { sendFile } = require('../services/sendFile');
-const mime = require('mime-types');
-
-const fs = require('fs').promises
-async function downloadFile(client, msg) {
-    const fileName = `${Date.now()}-beat-covid-whatsapp1.${mime.extension(msg.mimetype)}`
-    const buffer = await client.decryptFile(msg);
-    await fs.writeFile(`public/${fileName}`, buffer);
-    return fileName
-}
+const { downloadFile } = require('./downloadFile')
 async function broadcastMessageIndividual(client, googleSheets, msg) {
     const sheets = await sheetService(googleSheets);
     const contacts = await sheets.readSheet(DOCUMENTS.BROADCAST_INDIVIDUAL.DOC_REF, DOCUMENTS.BROADCAST_INDIVIDUAL.SHEET)
