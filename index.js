@@ -8,8 +8,8 @@ const { logMessage } = require('./utils/log_message');
 const { authGoogleSheets } = require('./services/google_sheets_auth');
 
 const { broadcastMessageIndividual } = require('./utils/broadcast_individual')
-
-const {RUN_MODE_SCRAP,  RUN_MODE_BULK_MSG} = process.env;
+const { broadcastMessageGroup } = require('./utils/broadcast_group')
+const { RUN_MODE_SCRAP, RUN_MODE_BULK_MSG } = process.env;
 
 if (RUN_MODE_SCRAP === 'YES') {
     require('./config/db');
@@ -36,7 +36,7 @@ venom
             // checkIfCommand
             if (commands[message.body] && (RUN_MODE_SCRAP === 'YES' || RUN_MODE_BULK_MSG === 'YES')) {
                 runCommand(client, googleSheets, message.body);
-            } else if (RUN_MODE_BULK_MSG === 'YES'){
+            } else if (RUN_MODE_BULK_MSG === 'YES') {
                 if (process.env.BROADCAST_INDIVIDUAL_NUMBER.split(',').includes(message.from))
                     broadcastMessageIndividual(client, googleSheets, message)
 
