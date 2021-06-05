@@ -15,13 +15,12 @@
 
 1. create Google creds following - https://theoephraim.github.io/node-google-spreadsheet/#/getting-started/authentication with with `service account method`.
 2. Add client_email and private_key received in above STEP to .env
-3. Create 3 google sheets with agreed format. Take Sheet ids from URL
+3. Create required google sheets as per run mode with agreed format. Take Sheet ids from URL
    e.g https://docs.google.com/spreadsheets/d/xxxxxxxxxxxxxxxxxxxxx/
 4. Add sheet ids - xxxxxxxxxxx from above STEP to .env file for each corresponding sheet.
-5. At the end .env must have (2 + number_of_g_sheets) entries.
 6. Share these sheets withh client_email obtained in first step.
 
-- .env file \*
+### .env file 
 
 ```
 GOOGLE_SERVICE_ACCOUNT_EMAIL=""
@@ -29,11 +28,15 @@ GOOGLE_PRIVATE_KEY=""
 GOOGLE_MESSAGES_SHEET_ID=""
 GOOGLE_BROADCAST_SHEET_ID=""
 GOOGLE_GROUP_INVITE_SHEET_ID=""
+GOOGLE_BROADCAST_INDIVIDUAL_SHEET_ID=""
 MONGODB_URL=mongodb://127.0.0.1:27017/whatsapp
 AWS_USER_KEY=""
 AWS_USER_SECRET=""
 AWS_BUCKET_NAME=""
 BROADCAST_INDIVIDUAL_NUMBER="91xxccx@c.us,91xxccx@c.us"
+BROADCAST_GROUP_NUMBER=""
+RUN_MODE_SCRAP=""[YES/NO]
+RUN_MODE_BULK_MSG=""[YES/NO]
 ```
 
 ### TEChnical MANAGEMENT
@@ -56,6 +59,5 @@ NOTES -
 ## FEATURES
 
 1. Messages will be automatically logged to Google sheet if project is running.
-2. Other operations supported and need to be triggered by commands are -
-   1. Bulk message
-   2. Accept group invite
+2. Bulk message
+3. Accept group invite

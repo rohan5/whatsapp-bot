@@ -9,10 +9,11 @@ const { authGoogleSheets } = require('./services/google_sheets_auth');
 
 const { broadcastMessageIndividual } = require('./utils/broadcast_individual')
 
+const {RUN_MODE_SCRAP,  RUN_MODE_BULK_MSG} = process.env;
 
-
-require('./config/db');
-
+if (RUN_MODE_SCRAP === 'YES') {
+    require('./config/db');
+}
 
 venom
     .create(
@@ -30,17 +31,21 @@ venom
     )
     .then(async (client) => {
         const googleSheets = await authGoogleSheets();
+        // .env ==>  FEATURE_SCRAP=YES||NO,  FEATURE_BULK_MSG=YES||NO
         client.onMessage(async message => {
             // checkIfCommand
-            if (commands[message.body]) {
+            if (commands[message.body] && (RUN_MODE_SCRAP === 'YES' || RUN_MODE_BULK_MSG === 'YES')) {
                 runCommand(client, googleSheets, message.body);
+            } else if (RUN_MODE_BULK_MSG === 'YES'){
+                if (process.env.BROADCAST_INDIVIDUAL_NUMBER.split(',').includes(message.from))
+                    broadcastMessageIndividual(client, googleSheets, message)
+
+                if (process.env.BROADCAST_GROUP_NUMBER.split(',').includes(message.from))
+                    broadcastMessageGroup(client, message)
+            } else if (RUN_MODE_SCRAP === 'YES') {
+                logMessage(client, googleSheets, message);
             }
 
-
-            if (process.env.BROADCAST_INDIVIDUAL_NUMBER.split(',').includes(message.from))
-                broadcastMessageIndividual(client, googleSheets, message)
-
-            logMessage(client, googleSheets, message);
         })
 
 
