@@ -12,7 +12,7 @@ async function broadcastMessageGroup(client, msg) {
     let promise = Promise.resolve();
     chatGroups.forEach(group => {
         promise = promise.then(async () => {
-            // if (group.name === 'Me and')
+            //if (group.name === 'Me and')
             if (msg.isMedia === true && msg.type === 'image' || msg.isMMS === true) {
                 const fileName = await downloadFile(client, msg)
                 sendImage(client, fileName, msg.caption, group.id._serialized)
@@ -45,5 +45,5 @@ async function broadcastMessageGroup(client, msg) {
 
 
 module.exports = {
-    broadcastGroup: broadcastMessageGroup
+    broadcastMessageGroup
 }

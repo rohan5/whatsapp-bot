@@ -1,5 +1,5 @@
 const { GoogleSpreadsheet } = require('google-spreadsheet');
-const {RUN_MODE_SCRAP,  RUN_MODE_BULK_MSG} = process.env;
+const { RUN_MODE_SCRAP, RUN_MODE_BULK_MSG } = process.env;
 
 async function authGoogleSheets() {
     try {
@@ -30,17 +30,17 @@ async function authGoogleSheets() {
         console.log(docGroupInvite.title, `Loaded`);
 
         // MODE DEPENDENT
-        if(RUN_MODE_BULK_MSG === 'YES'){
-            const docBroadcastIndividual = new GoogleSpreadsheet(process.env.GOOGLE_BROADCAST_INDIVIDUAL_SHEET_ID);        
+        if (RUN_MODE_BULK_MSG === 'YES') {
+            const docBroadcastIndividual = new GoogleSpreadsheet(process.env.GOOGLE_BROADCAST_INDIVIDUAL_SHEET_ID);
             await docBroadcastIndividual.useServiceAccountAuth({
                 client_email: process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL,
                 private_key: process.env.GOOGLE_PRIVATE_KEY,
             });
             await docBroadcastIndividual.loadInfo();
-            docObject.docBroadcast = docBroadcastIndividual;
+            docObject.docBroadcastIndividual = docBroadcastIndividual;
             console.log(docBroadcastIndividual.title, `Loaded`);
         }
-        if(RUN_MODE_SCRAP === 'YES'){
+        if (RUN_MODE_SCRAP === 'YES') {
             const docMessages = new GoogleSpreadsheet(process.env.GOOGLE_MESSAGES_SHEET_ID);
             await docMessages.useServiceAccountAuth({
                 client_email: process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL,
