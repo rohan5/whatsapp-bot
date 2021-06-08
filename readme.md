@@ -25,18 +25,6 @@
 ```
 GOOGLE_SERVICE_ACCOUNT_EMAIL=""
 GOOGLE_PRIVATE_KEY=""
-GOOGLE_MESSAGES_SHEET_ID=""
-GOOGLE_BROADCAST_SHEET_ID=""
-GOOGLE_GROUP_INVITE_SHEET_ID=""
-GOOGLE_BROADCAST_INDIVIDUAL_SHEET_ID=""
-MONGODB_URL=mongodb://127.0.0.1:27017/whatsapp
-AWS_USER_KEY=""
-AWS_USER_SECRET=""
-AWS_BUCKET_NAME=""
-BROADCAST_INDIVIDUAL_NUMBER="91xxccx@c.us,91xxccx@c.us"
-BROADCAST_GROUP_NUMBER=""
-RUN_MODE_SCRAP=""[YES/NO]
-RUN_MODE_BULK_MSG=""[YES/NO]
 ```
 
 ### TEChnical MANAGEMENT
@@ -61,3 +49,53 @@ NOTES -
 1. Messages will be automatically logged to Google sheet if project is running.
 2. Bulk message
 3. Accept group invite
+
+## USAGE INSTRUCTIONS
+App can be used in 2 modes
+- RUN_MODE_SCRAP
+- RUN_MODE_BULK_MSG
+
+Note:
+1. To enable any mode set that mode to 'YES' in env. e.g. - RUN_MODE_BULK_MSG='YES'
+2. Both modes can be enable together as well.
+
+###  RUN_MODE_SCRAP
+
+This mode will do
+
+- Message scrapping  
+- Initiate group invite Accept - command based 
+
+How to use-
+
+1. Set below mentioned env variables in addition to common variables.
+```
+RUN_MODE_SCRAP="YES"
+GOOGLE_MESSAGES_SHEET_ID=''
+GOOGLE_GROUP_INVITE_SHEET_ID=""
+MONGODB_URL=mongodb://127.0.0.1:27017/whatsapp
+AWS_USER_KEY=""
+AWS_USER_SECRET=""
+AWS_BUCKET_NAME=""
+```
+2. For Group invite accept - Prepare sheet taking reference from asset folder. Initiate operation by sending the command.
+
+
+### RUN_MODE_BULK_MSG
+This mode will do
+
+- Initiate group invite Accept - command based 
+- Broadcast Group Messages
+- Broad Individual Messages
+
+1. Set below mentioned env variables in addition to common variables.
+```
+RUN_MODE_BULK_MSG="YES"
+GOOGLE_GROUP_INVITE_SHEET_ID=""
+GOOGLE_BROADCAST_INDIVIDUAL_SHEET_ID=""
+BROADCAST_INDIVIDUAL_NUMBER="91xxccx@c.us,91xxccx@c.us"
+BROADCAST_GROUP_NUMBER=""
+```
+2. For message broadcast get your number configured. (Added in env for req operation[group/indiv]). Any message sent from this number will be forwarded to all groups/indi respectively.
+3. For Group invite accept - same as in first mode
+
