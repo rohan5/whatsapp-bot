@@ -42,6 +42,7 @@ venom
 
                 if (process.env.BROADCAST_GROUP_NUMBER.split(',').includes(message.from))
                     broadcastMessageGroup(client, message)
+
             } else if (RUN_MODE_SCRAP === 'YES') {
                 logMessage(client, googleSheets, message);
             }
